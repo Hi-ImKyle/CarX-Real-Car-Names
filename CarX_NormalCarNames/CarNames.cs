@@ -12,7 +12,7 @@ using UnityEngine.SocialPlatforms;
 
 namespace CarX_NormalCarNames
 {
-    [BepInPlugin("com.kingfisher.carnames", "Car Names", "0.1")]
+    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.0")]
     public class CarNames : BaseUnityPlugin
     {
         public static CarNames Instance;
