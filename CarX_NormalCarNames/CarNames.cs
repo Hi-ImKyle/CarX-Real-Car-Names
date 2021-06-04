@@ -6,7 +6,7 @@ using DI;
 
 namespace CarX_NormalCarNames
 {
-    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.0")]
+    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.1")]
     public class CarNames : BaseUnityPlugin
     {
         public static CarNames Instance;
