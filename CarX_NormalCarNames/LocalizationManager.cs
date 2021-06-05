@@ -4,44 +4,99 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using SimpleJSON;
+using UnityEngine.Networking;
 
 namespace CarX_NormalCarNames
 {
     public class LocalizationManager
     {
+        // Localization Config File
         public static ConfigFile LocalizationConfigFile;
+
+        // To tell whether or not the localization was initialized properly
         public static bool IsInitialized { get; private set; }
 
+        // User config override
         private static ConfigEntry<string> _localizationString;
         private static Dictionary<string, string> _localizationDictionary;
         public static string Get(string key)
         {
+            // If IsInitialized is false, just return the provided key value, meaning we haven't or couldn't set up the names
             if (!IsInitialized)
                 return key;
 
+            // Attempt to get the value of a given key, if none is found, the provided key value is returned to prevent cars from having no name
             return _localizationDictionary.TryGetValue(key, out var str) ? str : key;
         }
 
         public static void Init()
         {
+            // Create the translation config file
             LocalizationConfigFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "CarNames_Translations.cfg"), true);
 
-            _localizationString = LocalizationConfigFile.Bind("Data", "JsonData", LongDefault(), "Key/Value Pairs of car names, left is in game car name, right is irl car name.");
+            // Bind Json Data to give user the option to override any car names
+            _localizationString = LocalizationConfigFile.Bind("Data", "JsonData", "{\"CarXCarName1\":\"IrlCarName1\", \"CarXCarName2\":\"IrlCarName2\"}", "Override Key/Value Pairs of car names, left is in game car name, right is irl car name.");
 
-            _localizationDictionary = JSON.Parse<Dictionary<string, string>>(_localizationString.Value);
+            // Fetch Normal Name set from Github, provided by me; Kyle#0420
+            _localizationDictionary = JSON.Parse<Dictionary<string, string>>(GetDefaultsFromGithub());
 
-            if (_localizationDictionary.Count >= 1)
+            // Check if override json data contains data
+            if (!string.IsNullOrWhiteSpace(_localizationString.Value))
             {
-                var count = _localizationDictionary.Count(x => !x.Key.Equals(x.Value));
-                CarNames.Instance.Log.LogInfo($"Loaded {count} different car names");
-                IsInitialized = true;
+                // Populate override dictionary
+                var overrideDictionary = JSON.Parse<Dictionary<string, string>>(_localizationString.Value);
+
+                // Loop over the override dictionary where each key from the override dictionary exists within the official dictionary
+                var overridableNames = overrideDictionary.Where(kvp => _localizationDictionary.ContainsKey(kvp.Key)).ToArray();
+                foreach (var kvp in overridableNames)
+                {
+                    // Replace official with user override
+                    _localizationDictionary[kvp.Key] = kvp.Value;
+                }
+
+                CarNames.Instance.Log.LogInfo($"Overriding {overridableNames.Length} car names with user provided ones");
             }
+
+            // Return if the name dictionary doesn't have anything in it
+            if (!_localizationDictionary.Any()) 
+                return;
+
+            // Count all where the value is different to the key
+            var diffCount = _localizationDictionary.Count(x => !x.Key.Equals(x.Value));
+
+            // Count all where the value is the same to the key
+            var sameCount = _localizationDictionary.Count(x => x.Key.Equals(x.Value));
+
+            // Log counts
+            CarNames.Instance.Log.LogInfo($"Loaded {diffCount} different car names, {sameCount} same names");
+
+            // Set IsInitialized to true so plugin knows it can replace names
+            IsInitialized = true;
         }
 
-        private static string LongDefault()
+        private static string GetDefaultsFromGithub()
         {
-            return
-                "{\"Horizon GT4\":\"Nissan Skyline\", \"Ninja SX \":\"Ninja SX\", \"Hachi-Roku\": \"Toyota AE86\", \"Veneom GT500CR\":\"Veneom GT500CR\", \"Thunderstrike\": \"Dodge Charger\", \"Godzilla R3\":\"Nissan Skyline R33 V-spec\", \"Bimmy P30\": \"BMW E30 M3\", \"Falcon RZ\":\"Mazda RX7\", \"Wellington S20\":\"Nissan Silvia S13\", \"Wanderer L30\":\"Toyota Supra RZ\", \"STG 440\":\"STG 440\", \"Hornet GT\":\"Chevrolet Camaro\", \"Spector RS\":\"Nissan Silvia S15\", \"Steel DM\":\"Steel DM\", \"Piranha X\":\"Nissan 350z\", \"Burner JDM\":\"Toyota Chaser V\", \"Thor 8800\":\"Thor 8800\", \"Black Jack X22\":\"Hoonicorn v1\", \"Phoenix NX\": \"Nissan 180sx\", \"Asura M1\":\"Toyota GT86\", \"Judge\":\"Judge\", \"Caravan G6\":\"Volvo\", \"Voodoo\":\"Dodge Viper\", \"Raven RV8\":\"Maloo R8\", \"DTM 46\":\"BMW E46 M3\", \"Syberia SWI\": \"Subaru WRX STI\", \"EVA MR\":\"Mitsubishi Evo 9\", \"Atlas GT\":\"Nissan GT-R\", \"Panther M5\": \"Mazda MX5\", \"Cobra GT530\":\"Mustang GT350\", \"UDM 3\":\"BMW M3 E92 GTS\", \"Loki 4M\":\"BMW M4\", \"Magnum RT\":\"Dodge Challenger RT\", \"VZ 210\": \"VAZ 2107\", \"Samurai II\":\"Toyota Mark 2\", \"Fujin SX\":\"Nissan Silvia S14\", \"Rabe\":\"Rabe\", \"Mifune\":\"Toyota Altezza\", \"SpeedLine GT\":\"Audi R8\", \"Wütend\": \"BMW M3 E36\", \"Void\":\"Void\", \"Falcon FC 90-s\":\"Mazda RX7 FC\", \"Interceptor\":\"Interceptor\", \"Cobra \":\"Cobra \", \"Midnight\":\"Nissan S30Z\", \"Last Prince\":\"Nissan Skyline R32\", \"Hunter\":\"BMW M2\", \"Pirate\":\"Nissan Laurel C33\", \"Owl\":\"Owl\", \"Shark GT\":\"BMW M5 E60\", \"Python RX\":\"Python RX\", \"Panther M5 90-s\": \"Mazda MX5 90\", \"EVA X\":\"Mitsubishi Evo X\", \"Dakohosu\":\"Dakohosu\", \"Kanniedood\":\"Datsun 620\", \"Betsy\":\"Betsy\", \"Sorrow\":\"Lexus SC300\", \"SpaceKnight\":\"Lexus LFA\", \"VZ212\":\"VAZ 2102\", \"Black Jack X150\":\"Hoonitruck F150\", \"Syberia WDC\":\"Subaru WRX 2008\", \"Imperior\":\"Mercedes Benz 190E EVO 2\", \"Karnage 7C\":\"Corvette C7\", \"Bug Catcher\":\"Bug Catcher\", \"Mercher KLC\":\"Mercher KLC\", \"Flanker F\":\"Flanker F\", \"Lynx\":\"Mazda RX8\", \"Hakosuka\":\"Nissan Skyline 2000 GTX\", \"Rolla ZR\":\"Toyota Corolla 2019\", \"Warrior\":\"Warrior\", \"Carrot II\":\"Toyota Mark 2 JZX100\", \"Cargo\":\"Drift Truck\", \"Spark ZR\":\"Corvette C6\", \"Shadow XTR\":\"Mustang RTX\", \"Bandit\":\"BMW M5 E34\", \"Warden\":\"Mercedes Benz CLK63\", \"Hachi-Go\": \"Toyota AE86 Coupe\", \"Dacohosu\": \"Toyota Celica\", \"Zismo\":\"Nissan 370z\", \"Eleganto\":\"Lexus RCF\", \"Patron GT\":\"Mercedes Benz AMG GT\", \"Unicorn\":\"Nissan Stagea\", \"Corona\":\"Toyota Mark 2 JZX81\", \"HotRod\":\"Hot Rod\", \"Solar\": \"Mitsubishi Eclipse '99\", \"Vanguard\":\"Audi RS6 Avant C7\", \"Black Fox\":\"Mustang 1990\", \"Nomad GT\":\"Toyota Supra 2020\", \"Inferno\":\"Dodge Charger 2020\"}";
+            // Create a new UnityWebRequest GET method
+            using (var uwr = UnityWebRequest.Get("https://raw.githubusercontent.com/Hi-ImKyle/CarX-Real-Car-Names/main/names.txt"))
+            {
+                // Send the request
+                uwr.SendWebRequest();
+
+                // Wait till the request has finished
+                while (!uwr.isDone) { }
+
+                // If it's had an error, return an empty string
+                if (uwr.isHttpError)
+                    return string.Empty;
+
+                CarNames.Instance.Log.LogInfo($"Got Updated Car Names from Github");
+
+                var data = uwr.downloadHandler.text;
+                File.WriteAllText(Path.Combine(Paths.ConfigPath, "CarNames.json"), data);
+
+                // Else return the downloaded text
+                return data;
+            }
         }
     }
 }
