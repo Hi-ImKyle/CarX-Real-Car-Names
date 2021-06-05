@@ -10,9 +10,6 @@ Yes! This mod aims to replace all the car names with their actual real life coun
 
 All names are pulled from the `BepInEx/configs/CarNames.json`
 
-## Potential DLC Car Fix
-[Try this version](https://github.com/Hi-ImKyle/CarX-Real-Car-Names/releases/tag/1.2.1)
-
 ## Installation
 1) Download the [latest release](https://github.com/Hi-ImKyle/CarX-Real-Car-Names/releases/latest)
 2) Place `CarNames.dll` in `CarX Drift Racing Online\BepInEx\plugins`
@@ -23,7 +20,7 @@ All names are pulled from the `BepInEx/configs/CarNames.json`
 ```ini
 [Data]
 
-## Key/Value Pairs of car names
+## Override Key/Value Pairs of car names, left is in game car name, right is irl car name.
 # Setting type: String
 # Default value: 
 JsonData = {"Horizon GT4": "Nissan Skyline", "Ingame Car Name": "Irl Car Name"}
