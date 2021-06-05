@@ -413,6 +413,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarEnginePatch.cs" />
     <Compile Include="CarNames.cs" />
     <Compile Include="LocalizationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

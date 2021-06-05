@@ -18,7 +18,7 @@ namespace CarX_NormalCarNames
 
         // User config override
         private static ConfigEntry<string> _localizationString;
-        private static Dictionary<string, string> _localizationDictionary;
+        public static Dictionary<string, string> LocalizationDictionary { get; private set; }
         public static string Get(string key)
         {
             // If IsInitialized is false, just return the provided key value, meaning we haven't or couldn't set up the names
@@ -26,7 +26,7 @@ namespace CarX_NormalCarNames
                 return key;
 
             // Attempt to get the value of a given key, if none is found, the provided key value is returned to prevent cars from having no name
-            return _localizationDictionary.TryGetValue(key, out var str) ? str : key;
+            return LocalizationDictionary.TryGetValue(key, out var str) ? str : key;
         }
 
         public static void Init()
@@ -38,7 +38,7 @@ namespace CarX_NormalCarNames
             _localizationString = LocalizationConfigFile.Bind("Data", "JsonData", "{\"CarXCarName1\":\"IrlCarName1\", \"CarXCarName2\":\"IrlCarName2\"}", "Override Key/Value Pairs of car names, left is in game car name, right is irl car name.");
 
             // Fetch Normal Name set from Github, provided by me; Kyle#0420
-            _localizationDictionary = JSON.Parse<Dictionary<string, string>>(GetDefaultsFromGithub());
+            LocalizationDictionary = JSON.Parse<Dictionary<string, string>>(GetDefaultsFromGithub());
 
             // Check if override json data contains data
             if (!string.IsNullOrWhiteSpace(_localizationString.Value))
@@ -47,25 +47,25 @@ namespace CarX_NormalCarNames
                 var overrideDictionary = JSON.Parse<Dictionary<string, string>>(_localizationString.Value);
 
                 // Loop over the override dictionary where each key from the override dictionary exists within the official dictionary
-                var overridableNames = overrideDictionary.Where(kvp => _localizationDictionary.ContainsKey(kvp.Key)).ToArray();
+                var overridableNames = overrideDictionary.Where(kvp => LocalizationDictionary.ContainsKey(kvp.Key)).ToArray();
                 foreach (var kvp in overridableNames)
                 {
                     // Replace official with user override
-                    _localizationDictionary[kvp.Key] = kvp.Value;
+                    LocalizationDictionary[kvp.Key] = kvp.Value;
                 }
 
                 CarNames.Instance.Log.LogInfo($"Overriding {overridableNames.Length} car names with user provided ones");
             }
 
             // Return if the name dictionary doesn't have anything in it
-            if (!_localizationDictionary.Any()) 
+            if (!LocalizationDictionary.Any()) 
                 return;
 
             // Count all where the value is different to the key
-            var diffCount = _localizationDictionary.Count(x => !x.Key.Equals(x.Value));
+            var diffCount = LocalizationDictionary.Count(x => !x.Key.Equals(x.Value));
 
             // Count all where the value is the same to the key
-            var sameCount = _localizationDictionary.Count(x => x.Key.Equals(x.Value));
+            var sameCount = LocalizationDictionary.Count(x => x.Key.Equals(x.Value));
 
             // Log counts
             CarNames.Instance.Log.LogInfo($"Loaded {diffCount} different car names, {sameCount} same names");

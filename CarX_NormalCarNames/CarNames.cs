@@ -5,10 +5,11 @@ using DB;
 using DB.Meta;
 using DI;
 using GameOverlay;
+using HarmonyLib;
 
 namespace CarX_NormalCarNames
 {
-    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.2")]
+    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.3")]
     public class CarNames : BaseUnityPlugin
     {
         // This class' instance
@@ -17,11 +18,16 @@ namespace CarX_NormalCarNames
         // Makes the Plugin Logger available via the plugin instance above
         public ManualLogSource Log => Logger;
 
+        public Harmony Harmony { get; }
+
         /// <inheritdoc />
         public CarNames()
         {
             // Set the class instance to this one
             Instance = this;
+
+            Harmony = new Harmony(Info.Metadata.GUID);
+            Harmony.PatchAll(Assembly.GetAssembly(typeof(CarNames)));
             
             // Tell the localization manager to initialize
             LocalizationManager.Init();
@@ -29,7 +35,7 @@ namespace CarX_NormalCarNames
 
         public void Start()
         {
-            // Delay name replacement, seems to have fixed the missing DLC cars...? Needs more testing
+            // Delay name replacement
             Invoke("ReplaceNames", 5f);
         }
 
