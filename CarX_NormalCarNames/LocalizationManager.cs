@@ -76,6 +76,8 @@ namespace CarX_NormalCarNames
 
         private static string GetDefaultsFromGithub()
         {
+            var jsonPath = Path.Combine(Paths.ConfigPath, "CarNames.json");
+
             // Create a new UnityWebRequest GET method
             using (var uwr = UnityWebRequest.Get("https://raw.githubusercontent.com/Hi-ImKyle/CarX-Real-Car-Names/main/names.txt"))
             {
@@ -86,17 +88,27 @@ namespace CarX_NormalCarNames
                 while (!uwr.isDone) { }
 
                 // If it's had an error, return an empty string
-                if (uwr.isHttpError)
-                    return string.Empty;
+                if (!uwr.isHttpError)
+                {
+                    CarNames.Instance.Log.LogInfo($"Got Updated Car Names from Github");
 
-                CarNames.Instance.Log.LogInfo($"Got Updated Car Names from Github");
+                    var data = uwr.downloadHandler.text;
+                    File.WriteAllText(jsonPath, data);
 
-                var data = uwr.downloadHandler.text;
-                File.WriteAllText(Path.Combine(Paths.ConfigPath, "CarNames.json"), data);
+                    // Else return the downloaded text
+                    return data;
+                }
 
-                // Else return the downloaded text
-                return data;
+                CarNames.Instance.Log.LogError($"Github Fetch Error: {uwr.error}. Trying Local File...");
             }
+
+            if (File.Exists(jsonPath))
+            {
+                CarNames.Instance.Log.LogInfo($"Got Car Names from Local File");
+                return File.ReadAllText(jsonPath);
+            }
+
+            return string.Empty;
         }
     }
 }

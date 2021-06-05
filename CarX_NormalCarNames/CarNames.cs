@@ -8,7 +8,7 @@ using GameOverlay;
 
 namespace CarX_NormalCarNames
 {
-    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.1")]
+    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.2")]
     public class CarNames : BaseUnityPlugin
     {
         // This class' instance
