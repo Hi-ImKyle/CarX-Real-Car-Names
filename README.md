@@ -27,6 +27,14 @@ JsonData = {"Horizon GT4": "Nissan Skyline", "Ingame Car Name": "Irl Car Name"}
 
 ```
 
+### "Why are there car names that aren't in the game?!?!?!?"
+Some names, such as `Thor 8800` and `Owl`, are disabled cars within the game.
+### "Can I drive them?!?!?!?"
+Sure you can select these vehicles, but you will probably crash going into a lobby. I have tried using them, only 1 works and it's already in the game.
+### "BUT I WANT THEM?!?!?!?"
+If the demand is high enough, I'll make a mod to enable all vehicles. It's really not worth it as only 1 vehicle has a model and I've already mentioned that it's got a normal enabled car within the game already anyway.
+
+
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/25551312/120836965-15e72680-c55e-11eb-9acf-1a9f299b8f2d.png)
 ![image](https://user-images.githubusercontent.com/25551312/120837026-24cdd900-c55e-11eb-83e2-e1e601af6200.png)
