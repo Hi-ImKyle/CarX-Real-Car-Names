@@ -42,7 +42,7 @@
     "Void": "Void",
     "Falcon FC 90-s": "Mazda RX7 FC",
     "Interceptor": "Jeep SRT8",
-    "Cobra ": "Mercedes Benz E63",
+    "Cobra": "Mercedes Benz E63",
     "Midnight": "Nissan S30Z",
     "Last Prince": "Nissan Skyline R32",
     "Hunter": "BMW M2",
