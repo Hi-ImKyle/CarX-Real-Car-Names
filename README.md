@@ -8,7 +8,7 @@ instead of the off brand aldi versions
 
 Yes! This mod aims to replace all the car names with their actual real life counterparts.
 
-All names are pulled from the `BepInEx/configs/CarNames.json`
+All names are pulled from the `names.txt` file within this repo, the mod will fetch the file on each game start so in the event that names are changed or added, all you should need to do is restart your game. You should only ever redownload the mod if the changelog specifies it's a mod update and not a name update.
 
 ## Installation
 1) Download the [latest release](https://github.com/Hi-ImKyle/CarX-Real-Car-Names/releases/latest)
