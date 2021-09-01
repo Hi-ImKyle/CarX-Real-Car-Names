@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace CarX_NormalCarNames
 {
-    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.3")]
+    [BepInPlugin("com.kingfisher.carnames", "Car Names", "1.2.4")]
     public class CarNames : BaseUnityPlugin
     {
         // This class' instance
