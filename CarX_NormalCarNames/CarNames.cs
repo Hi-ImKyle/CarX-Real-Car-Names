@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using DB;
@@ -6,6 +7,7 @@ using DB.Meta;
 using DI;
 using GameOverlay;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CarX_NormalCarNames
 {
@@ -19,6 +21,8 @@ namespace CarX_NormalCarNames
         public ManualLogSource Log => Logger;
 
         public Harmony Harmony { get; }
+        
+        public Rect DebugWindow { get; set; }
 
         /// <inheritdoc />
         public CarNames()
@@ -36,7 +40,7 @@ namespace CarX_NormalCarNames
         public void Start()
         {
             // Delay name replacement
-            Invoke("ReplaceNames", 5f);
+            Invoke(nameof(ReplaceNames), 5f);
         }
 
         public void ReplaceNames()
@@ -49,7 +53,6 @@ namespace CarX_NormalCarNames
             {
                 // Set the internal car name to the one loaded in the LocalizationManager
                 car.name = LocalizationManager.Get(car.name);
-
                 // Increase replaced
                 replaced++;
             }

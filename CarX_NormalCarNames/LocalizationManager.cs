@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BepInEx;
@@ -26,7 +27,9 @@ namespace CarX_NormalCarNames
                 return key;
 
             // Attempt to get the value of a given key, if none is found, the provided key value is returned to prevent cars from having no name
-            return LocalizationDictionary.TryGetValue(key, out var str) ? str : key;
+            var value = LocalizationDictionary.FirstOrDefault(x =>
+                x.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+            return value.Value;
         }
 
         public static void Init()
@@ -108,6 +111,7 @@ namespace CarX_NormalCarNames
                 return File.ReadAllText(jsonPath);
             }
 
+            CarNames.Instance.Log.LogError($"Failed to get names from Local File");
             return string.Empty;
         }
     }
