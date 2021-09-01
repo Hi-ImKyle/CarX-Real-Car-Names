@@ -90,5 +90,11 @@
     "Inferno": "Dodge Charger 2020",
     "Flash": "Nissan Skyline HR34",
     "Penguin": "Pontiac Solstice",
-    "Glorious XZ": "Nissan 300zx"
+    "Glorious XZ": "Nissan 300zx",
+    "Equator D":"Infinity G35",
+    "Interstate":"Pontiac Trans Am",
+    "Hummel":"Porsche 911",
+    "Kitsune":"Honda NSX",
+    "Rattlesnake":"Dodge Viper",
+    "Grace GT":"Toyota Yaris GR"
 }
