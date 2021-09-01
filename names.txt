@@ -96,5 +96,6 @@
     "Hummel":"Porsche 911",
     "Kitsune":"Honda NSX",
     "Rattlesnake":"Dodge Viper",
-    "Grace GT":"Toyota Yaris GR"
+    "Grace GT":"Toyota Yaris GR",
+    "GloriousXZ":"Nissan 300ZX"
 }
