@@ -29,7 +29,8 @@ namespace CarX_NormalCarNames
             // Attempt to get the value of a given key, if none is found, the provided key value is returned to prevent cars from having no name
             var value = LocalizationDictionary.FirstOrDefault(x =>
                 x.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase));
-            return value.Value;
+            
+            return value.Value ?? key;
         }
 
         public static void Init()
