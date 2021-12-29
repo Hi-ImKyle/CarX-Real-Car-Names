@@ -1,4 +1,9 @@
-# CarX Real Car Names
+#Outdated
+The CarX devs feel the need to use something called "il2cpp", which to me always implies that they have something to hide. Since this is the case this mod will no longer work with the public main branch of the game. That being said, there is a "moddable" beta branch available and while this branch undoes the il2cpp bullshit there's no guarentee this mod will still work. I would check myself but whenever I load CarX with BepInEx to mod the game, the game just tells me steam isnt loaded. 
+
+CarX devs, if you're reading this, your decision to use il2cpp speaks volumes. 
+
+## CarX Real Car Names
 Replaces CarX car names with their real life counterparts.
 
 ## Info
@@ -26,14 +31,6 @@ All names are pulled from the `names.txt` file within this repo, the mod will fe
 JsonData = {"Horizon GT4": "Nissan Skyline", "Ingame Car Name": "Irl Car Name"}
 
 ```
-
-### "Why are there car names that aren't in the game?!?!?!?"
-Some names, such as `Thor 8800` and `Owl`, are disabled cars within the game.
-### "Can I drive them?!?!?!?"
-Sure you can select these vehicles, but you will probably crash going into a lobby. I have tried using them, only 1 works and it's already in the game.
-### "BUT I WANT THEM?!?!?!?"
-If the demand is high enough, I'll make a mod to enable all vehicles. It's really not worth it as only 1 vehicle has a model and I've already mentioned that it's got a normal enabled car within the game already anyway.
-
 
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/25551312/120836965-15e72680-c55e-11eb-9acf-1a9f299b8f2d.png)
