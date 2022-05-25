@@ -1,3 +1,6 @@
+# NEW VERSION AVAILABLE
+https://github.com/Hi-ImKyle/CarX_RCN
+
 # Outdated
 The CarX devs feel the need to use something called "il2cpp", which to me always implies that they have something to hide. Since this is the case this mod will no longer work with the public main branch of the game. That being said, there is a "moddable" beta branch available and while this branch undoes the il2cpp bullshit there's no guarentee this mod will still work. I would check myself but whenever I load CarX with BepInEx to mod the game, the game just tells me steam isnt loaded. 
 
